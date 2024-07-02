@@ -1,0 +1,36 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text.Json;
+
+public class Product
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public decimal Price { get; set; }
+    public string Category { get; set; }
+}
+namespace JSONManipulation
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string filePath = "products.json";
+            var products = ReadProductsFromJSON(filePath);
+            WriteProductsToJSON("output_products.json", products);
+        }
+
+        static List<Product> ReadProductsFromJSON(string filePath)
+        {
+            var jsonString = File.ReadAllText(filePath);
+            return JsonSerializer.Deserialize<List<Product>>(jsonString);
+        }
+
+        static void WriteProductsToJSON(string filePath, List<Product> products)
+        {
+            var jsonString = JsonSerializer.Serialize(products);
+            File.WriteAllText(filePath, jsonString);
+        }
+    }
+}
